@@ -5,8 +5,14 @@ const router = express.Router();
 
 router.get(`/`, async (req, res) => {
   let filter = {};
-  if (req.query.type) {
-    filter = { type: req.query.type };
+  if (req.query.userID !== "admin") {
+    if (req.query.type && req.query.userID) {
+      filter = { type: req.query.type, employee_id: req.query.userID };
+    }
+  } else {
+    if (req.query.type) {
+      filter = { type: req.query.type };
+    }
   }
 
   const transactionList = await Transaction.find(filter).sort({ date: -1 });
