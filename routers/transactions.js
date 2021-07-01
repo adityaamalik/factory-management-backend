@@ -35,6 +35,7 @@ router.get(`/:id`, async (req, res) => {
 router.post("/", async (req, res) => {
   let transaction = new Transaction({
     employee_id: req.body.employee_id,
+    employee_name: req.body.employee_name,
     shop_id: req.body.shop_id,
     products: req.body.products,
     total_price: req.body.total_price,
@@ -52,6 +53,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   let params = {
     employee_id: req.body.employee_id,
+    employee_name: req.body.employee_name,
     shop_id: req.body.shop_id,
     products: req.body.products,
     total_price: req.body.total_price,

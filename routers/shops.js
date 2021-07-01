@@ -29,6 +29,7 @@ router.post("/", async (req, res) => {
   let shop = new Shop({
     name: req.body.name,
     address: req.body.address,
+    map_location: req.body.map_location,
     area: req.body.area,
     pin_code: req.body.pin_code,
     phone_number_1: req.body.phone_number_1,
@@ -50,6 +51,7 @@ router.put("/:id", async (req, res) => {
   let params = {
     name: req.body.name,
     address: req.body.address,
+    map_location: req.body.map_location,
     area: req.body.area,
     pin_code: req.body.pin_code,
     phone_number_1: req.body.phone_number_1,

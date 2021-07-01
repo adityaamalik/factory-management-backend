@@ -8,6 +8,9 @@ const shopSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  map_location: {
+    type: String,
+  },
   area: {
     type: String,
     required: true,
