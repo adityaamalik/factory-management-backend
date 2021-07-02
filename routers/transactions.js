@@ -1,5 +1,7 @@
 const { Transaction } = require("../models/transaction");
 const express = require("express");
+const async = require("async");
+const { Product } = require("../models/product");
 
 const router = express.Router();
 
@@ -44,10 +46,51 @@ router.post("/", async (req, res) => {
 
   transaction = await transaction.save();
 
-  if (!transaction)
+  if (!transaction) {
     return res.status(500).send("The transaction cannot be created");
-
-  res.send(transaction);
+  } else {
+    if (req.body.type === "sales") {
+      async.eachSeries(
+        req.body.products,
+        (obj, done) => {
+          Product.findByIdAndUpdate(
+            obj,
+            {
+              stock: obj.stock - obj.quantity,
+            },
+            done
+          );
+        },
+        (err) => {
+          if (err) {
+            res.status(500).json({ error: err });
+          } else {
+            res.send(transaction);
+          }
+        }
+      );
+    } else {
+      async.eachSeries(
+        req.body.products,
+        (obj, done) => {
+          Product.findByIdAndUpdate(
+            obj,
+            {
+              stock: obj.stock + obj.quantity,
+            },
+            done
+          );
+        },
+        (err) => {
+          if (err) {
+            res.status(500).json({ error: err });
+          } else {
+            res.send(transaction);
+          }
+        }
+      );
+    }
+  }
 });
 
 router.put("/:id", async (req, res) => {
