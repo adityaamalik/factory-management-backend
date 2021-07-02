@@ -10,12 +10,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-mongoose.connect(process.env.CONNECTION_STRING, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  dbName: "factoryDB",
-});
+mongoose
+  .connect(process.env.CONNECTION_STRING, {
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    dbName: "factoryDB",
+  })
+  .then(() => console.log("Database connected!"))
+  .catch((err) => console.log(err));
 
 const productsRouter = require("./routers/products");
 const shopsRouter = require("./routers/shops");
